@@ -6,19 +6,11 @@
 
 <h2>Projects</h2>
 <ul>
-    <li>
-        ArenaFighter
-    </li>
-    <li>
-        Calculator
-    </li>
-    <li>
-        Golf
-    </li>
-    <li>
-        Sokoban
-    </li>
-    <li>
-        VendingMachine
-    </li>
+    @{ 
+        string[] projects = { "ArenaFighter", "Calculator", "Golf", "Sokoban", "VendingMachine" };
+        foreach(string proj in projects)
+        {
+            <li>@proj</li>
+        }
+    }
 </ul>
