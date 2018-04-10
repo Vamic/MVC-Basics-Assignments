@@ -20,13 +20,19 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        @Html.ActionLink("About", "Index", "Main", new { @class = "nav-link" })
+                        @Html.ActionLink("About", "Index", "Main", null, new { @class = "nav-link" })
                     </li>
                     <li class="nav-item">
-                        @Html.ActionLink("Contact", "Contact", "Main", new { @class = "nav-link" })
+                        @Html.ActionLink("Contact", "Contact", "Main", null, new { @class = "nav-link" })
                     </li>
                     <li class="nav-item">
-                        @Html.ActionLink("Projects", "Projects", "Main", new { @class = "nav-link" })
+                        @Html.ActionLink("Projects", "Projects", "Main", null, new { @class = "nav-link" })
+                    </li>
+                    <li class="nav-item">
+                        @Html.ActionLink("Temp Checker", "", "FeverCheck", null, new { @class = "nav-link" })
+                    </li>
+                    <li class="nav-item">
+                        @Html.ActionLink("Number Guessing", "", "GuessingGame", null, new { @class = "nav-link" })
                     </li>
                 </ul>
             </div>

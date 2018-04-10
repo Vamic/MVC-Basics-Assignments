@@ -1,0 +1,46 @@
+﻿
+@{
+    ViewBag.Title = "Temperature Checker";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    string result = "";
+    if (IsPost)
+    {
+        string input = Request["temperature"];
+        if(int.TryParse(input, out int temp))
+        {
+            result = "Your temperature is " + temp + "°C so ";
+            TemperatureChecker.Status status = TemperatureChecker.CheckTemperature(temp);
+            switch(status)
+            {
+                case TemperatureChecker.Status.Fever:
+                    result += "you have a fever.";
+                    break;
+                case TemperatureChecker.Status.Hypothermia:
+                    result += "you have hypothermia.";
+                    break;
+                case TemperatureChecker.Status.Normal:
+                    result += "you're healthy.";
+                    break;
+            }
+        } else
+        {
+            result = "You have to provide a valid number.";
+        }
+    }
+    }
+
+<h2>Temperature Checker</h2>
+
+@if(result.Length > 0)
+{
+    <p>@result</p>
+}
+
+
+@using (Html.BeginForm())
+    {
+        Html.Label("Enter your Temperature");
+        @Html.TextBox("temperature");
+    <input type="submit" value="Submit" />
+}
+

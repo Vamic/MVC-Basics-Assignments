@@ -25,5 +25,15 @@ namespace WebApplication2.Controllers
         {
             return View();
         }
+
+        public ActionResult TemperatureChecker()
+        {
+            return View();
+        }
+
+        public ActionResult NumberGuessing()
+        {
+            return View();
+        }
     }
 }

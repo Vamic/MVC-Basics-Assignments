@@ -1,0 +1,112 @@
+﻿
+@{
+    ViewBag.Title = "Number Guessing";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    if (Session["GuessCount"] == null)
+    {
+        Session["GuessCount"] = 0;
+    }
+    if (Session["SecretNumber"] == null)
+    {
+        Session["SecretNumber"] = 0;
+    }
+
+    int count = (int)Session["GuessCount"];
+    int guess = 0;
+    string response = "";
+    if (IsPost)
+    {
+        string input = Request["guess"];
+        if (int.TryParse(input, out guess))
+        {
+            count++;
+            response = "Guesses: " + count + "\n";
+            int number = (int)Session["SecretNumber"];
+            //Check guess
+            if (number < 1 || number > 100)
+            {
+                response = "Something went wrong. Number wasn't valid, please refresh the page.";
+            }
+            else if (number == guess)
+            {
+                response = guess + " was correct! You took " + count + (count == 1 ? " guess" : " guesses");
+                Session["SecretNumber"] = (new Random().Next(100) + 1);
+
+                List<string> leaderboard;
+                if (Request.Cookies["leaderboard"] == null)
+                {
+                    leaderboard = new List<string>();
+                } else
+                {
+                    leaderboard = Leaderboard.Parse(Request.Cookies["leaderboard"].Value);
+                }
+
+                leaderboard.Add(count.ToString());
+                leaderboard = Leaderboard.Sort(leaderboard);
+                if (leaderboard.Count > 10)
+                {
+                    leaderboard = leaderboard.GetRange(0, 10);
+                }
+
+                Response.Cookies["leaderboard"].Value = Leaderboard.Stringify(leaderboard);
+
+                count = 0;
+            }
+            else if (number > guess)
+            {
+                response += "Wrong. The number is higher than " + guess + ".";
+            }
+            else
+            {
+                response += "Wrong. The number is lower than " + guess + ".";
+            }
+            Session["GuessCount"] = count;
+        }
+        else
+        {
+            //Invalid guess
+            response += "Invalid guess, please guess a number.";
+        }
+    }
+    else
+    {
+        int number = (int)Session["SecretNumber"];
+        if (number < 1)
+        {
+            Session["SecretNumber"] = (new Random().Next(100) + 1);
+        }
+    }
+}
+
+<h2>Number Guessing</h2>
+
+@if (response.Length > 0)
+{
+    foreach (string line in response.Split("\n"[0]))
+    {
+        <p>@line</p>
+    }
+}
+
+@using (Html.BeginForm())
+{
+    Html.Label("Enter your guess. (1-100)");
+    @Html.TextBox("guess");
+    <input type="submit" value="Submit" />
+}
+
+@if (Request.Cookies["leaderboard"] != null)
+{
+    List<string> leaderboard = Leaderboard.Parse(Request.Cookies["leaderboard"].Value);
+    if (leaderboard.Count > 0)
+    {
+        <ol>
+            @foreach (string lGuess in leaderboard)
+            {
+                string text = lGuess + (int.Parse(lGuess) == 1 ? " guess" : " guesses");
+                <li>@text</li>
+            }
+        </ol>
+    }
+}
+
