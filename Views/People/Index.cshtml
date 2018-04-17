@@ -1,0 +1,70 @@
+﻿@model Person
+
+@{
+    ViewBag.Title = "People List";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    string search = "";
+    bool caseSensitive = false;
+    if (IsPost)
+    {
+        if (Request["type"] == "search" && Request["search"] != null)
+        {
+            search = Request["search"];
+            caseSensitive = Request["caseSensitive"].Contains("true");
+        }
+    }
+}
+
+<h2>People List</h2>
+<div class="col-6 offset-3">
+    @using (Html.BeginForm("Add", "People", null, FormMethod.Post, new { @class = "add-person-form" }))
+    {
+        <div class="form-group">
+            @Html.Label("Name")
+            @Html.TextBox("name", null, new { @class = "form-control", placeholder = "Name" })
+        </div>
+        <div class="form-group">
+            @Html.Label("Phone")
+            @Html.TextBox("phone", null, new { @class = "form-control", placeholder = "Phone" })
+        </div>
+        <div class="form-group">
+            @Html.Label("City")
+            @Html.TextBox("city", null, new { @class = "form-control", placeholder = "City" })
+        </div>
+        <input class="btn btn-submit" type="submit" value="Add Person" />
+    }
+</div>
+<hr />
+
+@using (Html.BeginForm("Index", "People", new { type = "search" }, FormMethod.Post, new { @class = "search-form" }))
+{
+    @Html.TextBox("search", null, new { @class = "form-control", placeholder = "Search" });
+    @Html.CheckBox("caseSensitive", caseSensitive, new { @class = "hidden" });
+    <label for="caseSensitive">Aa</label>
+    <input class="btn btn-submit" type="submit" value="Search" />
+}
+
+<table class="table table-bordered table-striped table-dark">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.Name)</th>
+            <th>@Html.DisplayNameFor(model => model.Phone)</th>
+            <th>@Html.DisplayNameFor(model => model.City)</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Person.GetFilteredList(search, caseSensitive))
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Name)</td>
+                <td>@Html.DisplayFor(modelItem => item.Phone)</td>
+                <td>@Html.DisplayFor(modelItem => item.City)</td>
+                <td>
+                    @Html.ActionLink("Delete", "Delete", new { id = item.ID }, new { @class = "btn btn-danger" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
