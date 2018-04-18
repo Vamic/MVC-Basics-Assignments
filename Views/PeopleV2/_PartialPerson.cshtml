@@ -1,0 +1,18 @@
+﻿@model Person
+
+<div class="row person-row">
+    <div class="col-4">
+        @Html.DisplayFor(model => model.Name)
+    </div>
+    <div class="col-4">
+        @Html.DisplayFor(model => model.Phone)
+    </div>
+    <div class="col-2">
+        @Html.DisplayFor(model => model.City)
+    </div>
+    <div class="col-2">
+        @if (Model) {
+            @Html.ActionLink("Delete", "Delete", new { id = Model.ID }, new { @class = "btn btn-danger" });
+        }
+    </div>
+</div>

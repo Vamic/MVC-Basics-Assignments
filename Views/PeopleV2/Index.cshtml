@@ -1,7 +1,7 @@
-﻿@model Person
+﻿@model IEnumerable<WebApplication2.Person>
 
 @{
-    ViewBag.Title = "People List";
+    ViewBag.Title = "People List V2";
     Layout = "~/Views/Shared/_Layout.cshtml";
 
     string search = "";
@@ -16,7 +16,8 @@
     }
 }
 
-<h2>People List</h2>
+<h2>People List V2</h2>
+
 <div class="col-6 offset-3">
     @using (Html.BeginForm("Add", "People", null, FormMethod.Post, new { @class = "add-person-form" }))
     {
@@ -37,7 +38,7 @@
 </div>
 <hr />
 
-@using (Html.BeginForm("Index", "People", new { type = "search" }, FormMethod.Post, new { @class = "search-form" }))
+@using (Html.BeginForm("Index", "PeopleV2", new { type = "search" }, FormMethod.Post, new { @class = "search-form" }))
 {
     @Html.TextBox("search", null, new { @class = "form-control", placeholder = "Search" });
     @Html.CheckBox("caseSensitive", caseSensitive, new { @class = "hidden" });
@@ -45,26 +46,11 @@
     <input class="btn btn-submit" type="submit" value="Search" />
 }
 
-<table class="table table-bordered table-striped table-dark">
-    <thead>
-        <tr>
-            <th>@Html.DisplayNameFor(model => model.Name)</th>
-            <th>@Html.DisplayNameFor(model => model.Phone)</th>
-            <th>@Html.DisplayNameFor(model => model.City)</th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Person.FilterList(Person.PeopleList, search, caseSensitive))
-        {
-            <tr>
-                <td>@Html.DisplayFor(modelItem => item.Name)</td>
-                <td>@Html.DisplayFor(modelItem => item.Phone)</td>
-                <td>@Html.DisplayFor(modelItem => item.City)</td>
-                <td>
-                    @Html.ActionLink("Delete", "Delete", new { id = item.ID }, new { @class = "btn btn-danger" })
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
+<div class="clearfix"></div>
+
+@Html.Action("ShowPerson", new { person = new Person("Name", "Phone", "City", isTemplate: true) })
+
+@foreach (var item in Person.FilterList((List<Person>)Model, search, caseSensitive))
+{
+    Html.RenderAction("ShowPerson", new { person = item });
+}

@@ -18,11 +18,17 @@ namespace WebApplication2
                 url: "FeverCheck",
                 defaults: new { controller = "Main", action = "TemperatureChecker" }
             );
-
+            
             routes.MapRoute(
                 name: "NumberGuessing",
                 url: "GuessingGame",
                 defaults: new { controller = "Main", action = "NumberGuessing" }
+            );
+
+            routes.MapRoute(
+                name: "PeopleV2",
+                url: "People/v2/{action}/{id}",
+                defaults: new { controller = "PeopleV2", action = "Index", id = UrlParameter.Optional }
             );
 
             routes.MapRoute(

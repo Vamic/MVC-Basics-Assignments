@@ -14,19 +14,24 @@ namespace WebApplication2
         public string City { get; set; }
 
         public static List<Person> PeopleList { get; set; }
-
-
-        public Person()
-        {
-            this.ID = PeopleCount;
-            PeopleCount++;
-        }
-
-        public Person(string name, string phone, string city) : this()
+        
+        public Person() { }
+        
+        public Person(string name, string phone, string city, bool isTemplate)
         {
             this.Name = name;
             this.Phone = phone;
             this.City = city;
+            if(!isTemplate)
+            {
+                PeopleCount++;
+                this.ID = PeopleCount;
+            }
+        }
+
+        public Person(string name, string phone, string city) 
+            : this(name, phone, city, false)
+        {
         }
 
         public static void GenerateList()
@@ -46,12 +51,22 @@ namespace WebApplication2
             };
         }
 
-        public static List<Person> GetFilteredList(string search, bool caseSensitive)
+        public static List<Person> FilterList(List<Person> list, string search, bool caseSensitive)
         {
             if(caseSensitive)
-                return PeopleList.Where(person => person.Name.Contains(search) || person.City.Contains(search)).ToList();
+                return list.Where(person => person.Name.Contains(search) || person.City.Contains(search)).ToList();
             search = search.ToLower();
-            return PeopleList.Where(person => person.Name.ToLower().Contains(search) || person.City.ToLower().Contains(search)).ToList();
+            return list.Where(person => person.Name.ToLower().Contains(search) || person.City.ToLower().Contains(search)).ToList();
+        }
+
+        public static bool operator true(Person person)
+        {
+            return person.ID > 0;
+        }
+
+        public static bool operator false(Person person)
+        {
+            return person.ID == 0;
         }
     }
 }
