@@ -142,6 +142,8 @@
     <Content Include="Scripts\jquery-3.0.0.min.js" />
     <Content Include="Scripts\jquery-3.0.0.slim.js" />
     <Content Include="Scripts\jquery-3.0.0.slim.min.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\popper-utils.js" />
     <Content Include="Scripts\popper-utils.min.js" />
     <Content Include="Scripts\popper.js" />
@@ -156,6 +158,7 @@
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\MainController.cs" />
+    <Compile Include="Controllers\PeopleWithAjaxController.cs" />
     <Compile Include="Controllers\PeopleV2Controller.cs" />
     <Compile Include="Controllers\PeopleController.cs" />
     <Compile Include="Global.asax.cs">
@@ -189,6 +192,10 @@
     <Content Include="Views\People\Index.cshtml" />
     <Content Include="Views\PeopleV2\Index.cshtml" />
     <Content Include="Views\PeopleV2\_PartialPerson.cshtml" />
+    <Content Include="Views\PeopleWithAjax\Index.cshtml" />
+    <Content Include="Views\PeopleWithAjax\_PartialPerson.cshtml" />
+    <Content Include="Views\PeopleWithAjax\_List.cshtml" />
+    <Content Include="Views\PeopleWithAjax\_PartialPersonEdit.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

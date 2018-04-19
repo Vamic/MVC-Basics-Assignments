@@ -1,0 +1,12 @@
+﻿@model IEnumerable<Person>
+
+<div class="row person-row">
+    @Html.Partial("_PartialPerson", new Person("Name", "Phone", "City", isTemplate: true))
+</div>
+
+@foreach (var item in Model)
+{
+    <div class="row person-row" id="person-row-@item.ID">
+        @Html.Partial("_PartialPerson", item)
+    </div>
+}

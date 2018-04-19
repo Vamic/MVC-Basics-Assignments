@@ -1,0 +1,31 @@
+﻿@model Person
+
+<div class="col-4">
+    @Html.DisplayFor(model => model.Name)
+</div>
+<div class="col-3">
+    @Html.DisplayFor(model => model.Phone)
+</div>
+<div class="col-3">
+    @Html.DisplayFor(model => model.City)
+</div>
+<div class="col-2">
+    @if (Model)
+    {
+        @Ajax.ActionLink("Edit", "EditStart", new { id = Model.ID },
+                 new AjaxOptions
+                 {
+                     HttpMethod = "GET",
+                     InsertionMode = InsertionMode.Replace,
+                     UpdateTargetId = "person-row-" + Model.ID
+                 }, new { @class = "btn btn-info" })
+
+        @Ajax.ActionLink("Delete", "Delete", new { id = Model.ID },
+                 new AjaxOptions
+                 {
+                     HttpMethod = "POST",
+                     InsertionMode = InsertionMode.Replace,
+                     UpdateTargetId = "people_list_container"
+                 }, new { @class = "btn btn-danger" })
+    }
+</div>

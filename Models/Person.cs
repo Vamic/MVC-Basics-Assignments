@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -8,9 +9,14 @@ namespace WebApplication2
     public class Person
     {
         private static int PeopleCount = 0;
-        public int ID { get; private set; }
+        [Required]
+        public int ID { get; set; }
+        [Required]
+        [StringLength(50, MinimumLength = 2)]
         public string Name { get; set; }
         public string Phone { get; set; }
+        [Required]
+        [StringLength(50, MinimumLength = 2)]
         public string City { get; set; }
 
         public static List<Person> PeopleList { get; set; }

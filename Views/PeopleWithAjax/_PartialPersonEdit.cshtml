@@ -1,0 +1,33 @@
+﻿@model Person
+
+@using (Ajax.BeginForm("Edit", "PeopleWithAjax", new { id = Model.ID },
+    new AjaxOptions
+    {
+        HttpMethod = "POST",
+        InsertionMode = InsertionMode.Replace,
+        UpdateTargetId = "person-row-" + Model.ID
+    }, new { @class = "edit-person-form row" }))
+{
+    <div class="col-4">
+        @Html.EditorFor(model => model.Name)
+    </div>
+    <div class="col-3">
+        @Html.EditorFor(model => model.Phone)
+    </div>
+    <div class="col-3">
+        @Html.EditorFor(model => model.City)
+    </div>
+    <div class="col-2">
+        @if (Model)
+        {
+            <input type="submit" value="Save" class="btn btn-info" />
+            @Ajax.ActionLink("Delete", "Delete", new { id = Model.ID },
+                                    new AjaxOptions
+                                    {
+                                        HttpMethod = "POST",
+                                        InsertionMode = InsertionMode.Replace,
+                                        UpdateTargetId = "people_list_container"
+                                    }, new { @class = "btn btn-danger" })
+        }
+    </div>
+}

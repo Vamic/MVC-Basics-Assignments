@@ -1,0 +1,56 @@
+﻿@model IEnumerable<Person>
+
+@{
+    ViewBag.Title = "People List V2";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    bool caseSensitive = Request["caseSensitive"] == "true";
+}
+
+<h2>People List V2</h2>
+
+<div class="col-6 offset-3">
+    @using (Ajax.BeginForm("Add", "PeopleWithAjax", null,
+        new AjaxOptions
+        {
+            HttpMethod = "POST",
+            InsertionMode = InsertionMode.Replace,
+            UpdateTargetId = "people_list_container"
+        }, new { @class = "add-person-form" }))
+    {
+        <div class="form-group">
+            @Html.Label("Name")
+            @Html.TextBox("name", null, new { @class = "form-control", placeholder = "Name" })
+        </div>
+        <div class="form-group">
+            @Html.Label("Phone")
+            @Html.TextBox("phone", null, new { @class = "form-control", placeholder = "Phone" })
+        </div>
+        <div class="form-group">
+            @Html.Label("City")
+            @Html.TextBox("city", null, new { @class = "form-control", placeholder = "City" })
+        </div>
+        <input class="btn btn-submit" type="submit" value="Add Person" />
+    }
+</div>
+<hr />
+
+    
+@using (Ajax.BeginForm("Index", "PeopleWithAjax", null, new AjaxOptions
+{
+    HttpMethod = "GET",
+    InsertionMode = InsertionMode.Replace,
+    UpdateTargetId = "people_list_container"
+}, new { @class = "search-form" }))
+{
+    @Html.TextBox("search", null, new { @class = "form-control", placeholder = "Search" });
+    @Html.CheckBox("caseSensitive", caseSensitive, new { @class = "hidden" });
+    <label for="caseSensitive">Aa</label>
+    <input class="btn btn-submit" type="submit" value="Search" />
+}
+
+<div class="clearfix"></div>
+
+<div id="people_list_container">
+    @Html.Partial("_List", Model)
+</div>
